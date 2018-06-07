@@ -1,4 +1,4 @@
-package com.lhx.algorithm.ripemd;
+package com.lhx.basealgorithm.ripemd;
 
 public class HmacRipeMDCoderTest {
 	public static void main(String[] args) throws Exception {

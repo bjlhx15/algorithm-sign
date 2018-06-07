@@ -1,4 +1,4 @@
-package com.lhx.algorithm.md5andsha;
+package com.lhx.basealgorithm.md5andsha;
 
 import java.security.MessageDigest;
 

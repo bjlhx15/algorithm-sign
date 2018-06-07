@@ -1,20 +1,22 @@
-package com.lhx.algorithm.base58;
+package com.lhx.basealgorithm.base64;
+
+import java.util.Base64;
 
 import org.junit.Test;
 
-public class Base58Test {
+public class Jdk8Base64Test {
 
 	@Test
-	public void testBASE58Encoder() throws Exception {
+	public void testBASE64Encoder() throws Exception {
 		// JDK里sun.misc套件下的BASE64Encoder和BASE64Decoder这两个类
-		String encode = Base58.encode("测试".getBytes("UTF-8"), "UTF-8");
+		String encode = Base64.getEncoder().encodeToString("测试".getBytes("UTF-8"));
 		System.out.println(encode);
 	}
 
 	@Test
 	public void testBASE64Decoder() throws Exception {
 		// JDK里sun.misc套件下的BASE64Encoder和BASE64Decoder这两个类
-		String encode = new String(Base58.decode("2ytQwSoWc"), "UTF-8");
+		String encode = new String(Base64.getDecoder().decode("5rWL6K+V"), "UTF-8");
 		System.out.println(encode);
 	}
 }

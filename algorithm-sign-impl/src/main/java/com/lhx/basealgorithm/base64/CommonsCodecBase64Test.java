@@ -1,4 +1,4 @@
-package com.lhx.algorithm.base64;
+package com.lhx.basealgorithm.base64;
 
 import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;

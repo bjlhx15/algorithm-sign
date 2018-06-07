@@ -1,6 +1,6 @@
-package com.lhx.algorithm.hmactiger;
+package com.lhx.basealgorithm.hmactiger;
 
-import com.lhx.algorithm.ripemd.RipeMDCoder;
+import com.lhx.basealgorithm.ripemd.RipeMDCoder;
 
 public class TigerTest {
 	public static void main(String[] args) throws Exception {

@@ -1,4 +1,4 @@
-package com.lhx.algorithm.hmac;
+package com.lhx.basealgorithm.hmac;
 
 import java.util.Base64;
 

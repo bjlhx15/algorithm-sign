@@ -1,6 +1,6 @@
-package com.lhx.algorithm.hmactiger;
+package com.lhx.basealgorithm.hmactiger;
 
-import com.lhx.algorithm.ripemd.HmacRipeMDCoder;
+import com.lhx.basealgorithm.ripemd.HmacRipeMDCoder;
 
 /**
  * HmacTiger128,HmacRipeMD160

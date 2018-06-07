@@ -1,4 +1,4 @@
-package com.lhx.algorithm.ripemd;
+package com.lhx.basealgorithm.ripemd;
 
 import java.security.Security;
 

@@ -13,11 +13,11 @@ import java.security.spec.X509EncodedKeySpec;
 
 import org.apache.commons.codec.binary.Hex;
 
-public class ECDSA {
+public class ECDSATest {
 	private static String src = "ecdsa security";
 
 	public static void main(String[] args) {
-		ECDSA.jdkECDSA();
+		ECDSATest.jdkECDSA();
 	}
 
 	public static void jdkECDSA() {
@@ -36,7 +36,7 @@ public class ECDSA {
 			PrivateKey privateKey = keyFactory.generatePrivate(pkcs8EncodedKeySpec);
 			Signature signature = Signature.getInstance("SHA1withECDSA");
 			signature.initSign(privateKey);
-			signature.update(ECDSA.src.getBytes());
+			signature.update(ECDSATest.src.getBytes());
 			byte[] res = signature.sign();
 			System.out.println("签名：" + Hex.encodeHexString(res));
 
@@ -46,7 +46,7 @@ public class ECDSA {
 			PublicKey publicKey = keyFactory.generatePublic(x509EncodedKeySpec);
 			signature = Signature.getInstance("SHA1withECDSA");
 			signature.initVerify(publicKey);
-			signature.update(ECDSA.src.getBytes());
+			signature.update(ECDSATest.src.getBytes());
 			boolean bool = signature.verify(res);
 			System.out.println("验证：" + bool);
 		} catch (Exception e) {

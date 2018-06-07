@@ -1,4 +1,4 @@
-package com.lhx.algorithm.base58;
+package com.lhx.basealgorithm.base58;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
