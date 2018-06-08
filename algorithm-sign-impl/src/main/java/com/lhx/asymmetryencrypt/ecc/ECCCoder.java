@@ -1,4 +1,4 @@
-package com.lhx.sign.ecc;
+package com.lhx.asymmetryencrypt.ecc;
 
 import java.math.BigInteger;
 import java.security.Key;
@@ -41,7 +41,8 @@ public class ECCCoder {
 	public static byte[] decrypt(byte[] data, String key) throws Exception {
 		// 对密钥解密
 		byte[] keyBytes = ECCCoder.decryptBASE64(key);
-
+		// jdk1.7:http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/7-b147/sun/security/ec/ECKeyFactory.java/
+		// jdk1.8:http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/8u40-b25/java/security/interfaces/ECKey.java#ECKey
 		// 取得私钥
 		// jdk<=1.7
 		// PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(keyBytes);

@@ -6,26 +6,26 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * 
+ *
  * @author 木子旭
  * @since 2017年3月17日上午9:18:14
  * @version %I%,%G%
  */
-public class DHCoderTest {
+public class JdkDHCoderTest {
 	@Test
 	public void test() throws Exception {
 		// 生成甲方密钥对儿
-		Map<String, Object> aKeyMap = DHCoder.initKey();
-		String aPublicKey = DHCoder.getPublicKey(aKeyMap);
-		String aPrivateKey = DHCoder.getPrivateKey(aKeyMap);
+		Map<String, Object> aKeyMap = JdkDHCoder.initKey();
+		String aPublicKey = JdkDHCoder.getPublicKey(aKeyMap);
+		String aPrivateKey = JdkDHCoder.getPrivateKey(aKeyMap);
 
 		System.err.println("甲方公钥:\r" + aPublicKey);
 		System.err.println("甲方私钥:\r" + aPrivateKey);
 
 		// 乙方由甲方公钥产生乙方本地密钥对儿
-		Map<String, Object> bKeyMap = DHCoder.initKey(aPublicKey);
-		String bPublicKey = DHCoder.getPublicKey(bKeyMap);
-		String bPrivateKey = DHCoder.getPrivateKey(bKeyMap);
+		Map<String, Object> bKeyMap = JdkDHCoder.initKey(aPublicKey);
+		String bPublicKey = JdkDHCoder.getPublicKey(bKeyMap);
+		String bPrivateKey = JdkDHCoder.getPrivateKey(bKeyMap);
 
 		System.err.println("乙方公钥:\r" + bPublicKey);
 		System.err.println("乙方私钥:\r" + bPrivateKey);
@@ -35,10 +35,10 @@ public class DHCoderTest {
 		System.err.println("原文: " + aInput);
 
 		// 乙方构建密钥消息，使用甲方公钥，乙方私钥构建密文
-		byte[] aCode = DHCoder.encrypt(aInput.getBytes(), aPublicKey, bPrivateKey);
+		byte[] aCode = JdkDHCoder.encrypt(aInput.getBytes(), aPublicKey, bPrivateKey);
 
 		// 甲方解密乙方加密消息，使用乙方公钥，甲方私钥解密
-		byte[] aDecode = DHCoder.decrypt(aCode, bPublicKey, aPrivateKey);
+		byte[] aDecode = JdkDHCoder.decrypt(aCode, bPublicKey, aPrivateKey);
 		String aOutput = (new String(aDecode));
 
 		System.err.println("解密: " + aOutput);
@@ -51,10 +51,10 @@ public class DHCoderTest {
 		System.err.println("原文: " + bInput);
 
 		// 甲方构建密钥消息，由乙方公钥，甲方私钥构建密文
-		byte[] bCode = DHCoder.encrypt(bInput.getBytes(), bPublicKey, aPrivateKey);
+		byte[] bCode = JdkDHCoder.encrypt(bInput.getBytes(), bPublicKey, aPrivateKey);
 
 		// 乙方解密甲方加密消息，使用甲方公钥，乙方私钥解密
-		byte[] bDecode = DHCoder.decrypt(bCode, aPublicKey, bPrivateKey);
+		byte[] bDecode = JdkDHCoder.decrypt(bCode, aPublicKey, bPrivateKey);
 		String bOutput = (new String(bDecode));
 
 		System.err.println("解密: " + bOutput);

@@ -33,7 +33,7 @@ import org.apache.commons.codec.binary.Base64;
  * @since 2017年3月17日上午9:18:14
  * @version %I%,%G%
  */
-public class DHCoder {
+public class JdkDHCoder {
 	public static final String ALGORITHM = "DH";
 
 	/**
@@ -61,8 +61,8 @@ public class DHCoder {
 	 * @throws Exception
 	 */
 	public static Map<String, Object> initKey() throws Exception {
-		KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(DHCoder.ALGORITHM);
-		keyPairGenerator.initialize(DHCoder.KEY_SIZE);
+		KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(JdkDHCoder.ALGORITHM);
+		keyPairGenerator.initialize(JdkDHCoder.KEY_SIZE);
 
 		KeyPair keyPair = keyPairGenerator.generateKeyPair();
 
@@ -74,8 +74,8 @@ public class DHCoder {
 
 		Map<String, Object> keyMap = new HashMap<String, Object>(2);
 
-		keyMap.put(DHCoder.PUBLIC_KEY, publicKey);
-		keyMap.put(DHCoder.PRIVATE_KEY, privateKey);
+		keyMap.put(JdkDHCoder.PUBLIC_KEY, publicKey);
+		keyMap.put(JdkDHCoder.PRIVATE_KEY, privateKey);
 		return keyMap;
 	}
 
@@ -89,9 +89,9 @@ public class DHCoder {
 	 */
 	public static Map<String, Object> initKey(String key) throws Exception {
 		// 解析甲方公钥
-		byte[] keyBytes = DHCoder.decryptBASE64(key);
+		byte[] keyBytes = JdkDHCoder.decryptBASE64(key);
 		X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(keyBytes);
-		KeyFactory keyFactory = KeyFactory.getInstance(DHCoder.ALGORITHM);
+		KeyFactory keyFactory = KeyFactory.getInstance(JdkDHCoder.ALGORITHM);
 		PublicKey pubKey = keyFactory.generatePublic(x509KeySpec);
 
 		// 由甲方公钥构建乙方密钥
@@ -110,8 +110,8 @@ public class DHCoder {
 
 		Map<String, Object> keyMap = new HashMap<String, Object>(2);
 
-		keyMap.put(DHCoder.PUBLIC_KEY, publicKey);
-		keyMap.put(DHCoder.PRIVATE_KEY, privateKey);
+		keyMap.put(JdkDHCoder.PUBLIC_KEY, publicKey);
+		keyMap.put(JdkDHCoder.PRIVATE_KEY, privateKey);
 
 		return keyMap;
 	}
@@ -131,7 +131,7 @@ public class DHCoder {
 	public static byte[] encrypt(byte[] data, String publicKey, String privateKey) throws Exception {
 
 		// 生成本地密钥
-		SecretKey secretKey = DHCoder.getSecretKey(publicKey, privateKey);
+		SecretKey secretKey = JdkDHCoder.getSecretKey(publicKey, privateKey);
 
 		// 数据加密
 		Cipher cipher = Cipher.getInstance(secretKey.getAlgorithm());
@@ -155,7 +155,7 @@ public class DHCoder {
 	public static byte[] decrypt(byte[] data, String publicKey, String privateKey) throws Exception {
 
 		// 生成本地密钥
-		SecretKey secretKey = DHCoder.getSecretKey(publicKey, privateKey);
+		SecretKey secretKey = JdkDHCoder.getSecretKey(publicKey, privateKey);
 		// 数据解密
 		Cipher cipher = Cipher.getInstance(secretKey.getAlgorithm());
 		cipher.init(Cipher.DECRYPT_MODE, secretKey);
@@ -175,14 +175,14 @@ public class DHCoder {
 	 */
 	private static SecretKey getSecretKey(String publicKey, String privateKey) throws Exception {
 		// 初始化公钥
-		byte[] pubKeyBytes = DHCoder.decryptBASE64(publicKey);
+		byte[] pubKeyBytes = JdkDHCoder.decryptBASE64(publicKey);
 
-		KeyFactory keyFactory = KeyFactory.getInstance(DHCoder.ALGORITHM);
+		KeyFactory keyFactory = KeyFactory.getInstance(JdkDHCoder.ALGORITHM);
 		X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(pubKeyBytes);
 		PublicKey pubKey = keyFactory.generatePublic(x509KeySpec);
 
 		// 初始化私钥
-		byte[] priKeyBytes = DHCoder.decryptBASE64(privateKey);
+		byte[] priKeyBytes = JdkDHCoder.decryptBASE64(privateKey);
 
 		PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(priKeyBytes);
 		Key priKey = keyFactory.generatePrivate(pkcs8KeySpec);
@@ -192,7 +192,7 @@ public class DHCoder {
 		keyAgree.doPhase(pubKey, true);
 
 		// 生成本地密钥
-		SecretKey secretKey = keyAgree.generateSecret(DHCoder.SECRET_ALGORITHM);
+		SecretKey secretKey = keyAgree.generateSecret(JdkDHCoder.SECRET_ALGORITHM);
 
 		return secretKey;
 	}
@@ -205,9 +205,9 @@ public class DHCoder {
 	 * @throws Exception
 	 */
 	public static String getPrivateKey(Map<String, Object> keyMap) throws Exception {
-		Key key = (Key) keyMap.get(DHCoder.PRIVATE_KEY);
+		Key key = (Key) keyMap.get(JdkDHCoder.PRIVATE_KEY);
 
-		return DHCoder.encryptBASE64(key.getEncoded());
+		return JdkDHCoder.encryptBASE64(key.getEncoded());
 	}
 
 	/**
@@ -218,9 +218,9 @@ public class DHCoder {
 	 * @throws Exception
 	 */
 	public static String getPublicKey(Map<String, Object> keyMap) throws Exception {
-		Key key = (Key) keyMap.get(DHCoder.PUBLIC_KEY);
+		Key key = (Key) keyMap.get(JdkDHCoder.PUBLIC_KEY);
 
-		return DHCoder.encryptBASE64(key.getEncoded());
+		return JdkDHCoder.encryptBASE64(key.getEncoded());
 	}
 
 	public static byte[] decryptBASE64(String data) {
