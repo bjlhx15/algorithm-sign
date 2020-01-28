@@ -1,0 +1,3 @@
+　　由于JDK版本不同，在Java 8 update 161版本以后就会出现此问题，根本原因还是DH密钥长度至少为512位，而DES算法密钥没有这么长，密钥长度不一致引起的。
+
+　　解决方法：配置JVM的系统变量：-Djdk.crypto.KeyAgreement.legacyKDF=true

@@ -9,7 +9,7 @@
 	<url>http://maven.apache.org</url>
 
 	<parent>
-		<groupId>com.lhx.algorithm</groupId>
+		<groupId>com.github.bjlhx15</groupId>
 		<artifactId>algorithm-sign</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
