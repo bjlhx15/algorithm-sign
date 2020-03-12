@@ -7,6 +7,14 @@
 
 	<name>algorithm-sign</name>
 	<url>http://maven.apache.org</url>
+	<dependencies>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.62</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
 	<parent>
 		<groupId>com.github.bjlhx15</groupId>
