@@ -14,10 +14,11 @@ public class JdkSymmetricAesTest {
     byte[] iv = null;
     byte[] encrypt = null;
     byte[] decrypt = null;
-    AbstractSymmetric symmetric=null;
+    AbstractSymmetric symmetric = null;
+
     @Before
-    public void before(){
-        symmetric=new JdkSymmetric();
+    public void before() {
+        symmetric = new JdkSymmetric();
     }
 
 //    SunJCE: Cipher.AES -> com.sun.crypto.provider.AESCipher$General
@@ -57,6 +58,8 @@ public class JdkSymmetricAesTest {
                 boolean b = encryptCheck(entry);
                 if (b) {
                     System.out.println(entry.getValue() + ":支持");
+                    System.out.println("---------------------------------");
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -68,15 +71,17 @@ public class JdkSymmetricAesTest {
     boolean encryptCheck(Map.Entry<String, String> entry) throws Exception {
         padding = entry;
         //Wrong keysize: must be equal to 56,或者不写也可以
-        key = symmetric.initKey(padding,256);//Base64.getDecoder().decode("koY9NPFJGf4=");//
+        key = symmetric.initKey(padding, 256);//Base64.getDecoder().decode("koY9NPFJGf4=");//
+
         iv = AbstractSymmetric.initIv(16);
+
         System.out.println("key:" + Base64.getEncoder().encodeToString(key));
         System.out.println("iv:" + Base64.getEncoder().encodeToString(iv));
         encrypt = symmetric.encrypt(padding, key, iv, msg.getBytes("utf-8"));
         System.out.println("encrypt:" + Base64.getEncoder().encodeToString(encrypt));
         decrypt = symmetric.decrypt(padding, key, iv, this.encrypt);
-        //System.out.println("decrypt:" + Base64.getEncoder().encodeToString(encrypt));
-        //System.out.println("解密原文:" + new String(decrypt, "utf-8"));
+        System.out.println("decrypt:" + Base64.getEncoder().encodeToString(encrypt));
+        System.out.println("解密原文:" + new String(decrypt, "utf-8"));
         return true;
     }
 }

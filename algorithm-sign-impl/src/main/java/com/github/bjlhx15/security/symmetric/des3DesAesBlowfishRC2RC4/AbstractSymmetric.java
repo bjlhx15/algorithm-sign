@@ -73,7 +73,7 @@ public abstract class AbstractSymmetric {
                     || algorithm.getValue().equalsIgnoreCase("DESede")
                     || algorithm.getValue().equalsIgnoreCase("AES")
             ) {
-                cipher.init(Cipher.ENCRYPT_MODE, k);
+                cipher.init(Cipher.DECRYPT_MODE, k);
             } else {
                 cipher.init(Cipher.DECRYPT_MODE, k, new IvParameterSpec(iv));
             }

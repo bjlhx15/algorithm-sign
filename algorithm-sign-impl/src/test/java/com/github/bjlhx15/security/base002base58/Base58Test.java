@@ -19,7 +19,7 @@ public class Base58Test {
 
     @Test
     public void encode() throws Exception {
-        String msg = "测试";
+        String msg = "453534534534543534:dfsdfsdfsdfsdfsdfdsfdsfs";
         String encode = Base58.encode(msg.getBytes("UTF-8"), "UTF-8");
         System.out.println(encode);
 
