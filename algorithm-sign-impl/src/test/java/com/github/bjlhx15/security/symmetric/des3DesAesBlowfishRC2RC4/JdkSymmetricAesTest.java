@@ -71,9 +71,11 @@ public class JdkSymmetricAesTest {
     boolean encryptCheck(Map.Entry<String, String> entry) throws Exception {
         padding = entry;
         //Wrong keysize: must be equal to 56,或者不写也可以
-        key = symmetric.initKey(padding, 256);//Base64.getDecoder().decode("koY9NPFJGf4=");//
+        if (key == null)
+            key = symmetric.initKey(padding, 128);//Base64.getDecoder().decode("koY9NPFJGf4=");//
 
-        iv = AbstractSymmetric.initIv(16);
+        if (iv == null)
+            iv = AbstractSymmetric.initIv(16);
 
         System.out.println("key:" + Base64.getEncoder().encodeToString(key));
         System.out.println("iv:" + Base64.getEncoder().encodeToString(iv));
