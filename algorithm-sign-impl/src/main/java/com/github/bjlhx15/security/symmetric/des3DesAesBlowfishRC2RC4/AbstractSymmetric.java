@@ -5,10 +5,12 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
+import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 import java.security.SecureRandom;
+import java.security.spec.AlgorithmParameterSpec;
 import java.util.Base64;
 import java.util.Map;
 
@@ -68,8 +70,14 @@ public abstract class AbstractSymmetric {
         this.decryptBefore();
         Key k = toKey(algorithm.getKey(), key);
         Cipher cipher = Cipher.getInstance(algorithm.getValue());
-        if (iv != null) {
-            if (algorithm.getValue().contains("/ECB/") || algorithm.getValue().equalsIgnoreCase("des")
+        if (algorithm.getValue().contains("GCM")) {
+            AlgorithmParameterSpec params = algorithm.getValue().contains("GCM")
+                    ? new GCMParameterSpec(128, data, 0, 12) : new IvParameterSpec(iv);
+            cipher.init(Cipher.DECRYPT_MODE, k, params);
+            return cipher.doFinal(data, 12, data.length - 12);
+        } else {
+            if (iv == null || algorithm.getValue().contains("/ECB/")
+                    || algorithm.getValue().equalsIgnoreCase("des")
                     || algorithm.getValue().equalsIgnoreCase("DESede")
                     || algorithm.getValue().equalsIgnoreCase("AES")
             ) {
@@ -77,8 +85,6 @@ public abstract class AbstractSymmetric {
             } else {
                 cipher.init(Cipher.DECRYPT_MODE, k, new IvParameterSpec(iv));
             }
-        } else {
-            cipher.init(Cipher.DECRYPT_MODE, k);
         }
         return cipher.doFinal(data);
     }
@@ -97,17 +103,26 @@ public abstract class AbstractSymmetric {
         this.encryptBefore();
         Key k = toKey(algorithm.getKey(), key);
         Cipher cipher = Cipher.getInstance(algorithm.getValue());
-        if (iv != null) {
-            if (algorithm.getValue().contains("/ECB/") || algorithm.getValue().equalsIgnoreCase("des")
-                    || algorithm.getValue().equalsIgnoreCase("DESede")
-                    || algorithm.getValue().equalsIgnoreCase("AES")
-            ) {
-                cipher.init(Cipher.ENCRYPT_MODE, k);
-            } else {
-                cipher.init(Cipher.ENCRYPT_MODE, k, new IvParameterSpec(iv));
-            }
-        } else {
+
+        if (iv == null || algorithm.getValue().contains("/ECB/")
+                || algorithm.getValue().equalsIgnoreCase("des")
+                || algorithm.getValue().equalsIgnoreCase("DESede")
+                || algorithm.getValue().equalsIgnoreCase("AES")
+                || algorithm.getValue().contains("GCM")
+        ) {
             cipher.init(Cipher.ENCRYPT_MODE, k);
+        } else {
+            cipher.init(Cipher.ENCRYPT_MODE, k, new IvParameterSpec(iv));
+        }
+        if (algorithm.getValue().contains("GCM")) {
+            byte[] ivTmp = cipher.getIV();
+            assert ivTmp.length == 12;
+            byte[] encryptData = cipher.doFinal(data);
+            assert encryptData.length == data.length + 16;
+            byte[] message = new byte[12 + data.length + 16];
+            System.arraycopy(ivTmp, 0, message, 0, 12);
+            System.arraycopy(encryptData, 0, message, 12, encryptData.length);
+            return message;
         }
         return cipher.doFinal(data);
     }

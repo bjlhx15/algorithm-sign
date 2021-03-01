@@ -23,6 +23,7 @@
 		<module>algorithm-sign-impl</module>
 		<module>algorithm-sign-001-jasypt</module>
 		<module>algorithm-sign-002-jasypt-springboot</module>
+		<module>eg001-seal-sign</module>
 	</modules>
 	<dependencies>
 		<dependency>

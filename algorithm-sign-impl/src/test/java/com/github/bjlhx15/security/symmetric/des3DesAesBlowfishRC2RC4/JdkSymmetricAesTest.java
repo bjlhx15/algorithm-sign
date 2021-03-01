@@ -53,6 +53,9 @@ public class JdkSymmetricAesTest {
         paddingListMap.add(new AbstractMap.SimpleEntry<>("AES", "AES/CTS/NOPADDING"));
         paddingListMap.add(new AbstractMap.SimpleEntry<>("AES", "AES/CTS/PKCS5PADDING"));
         // paddingListMap.add(new AbstractMap.SimpleEntry<>("AES","AES/CTS/ISO10126PADDING"));//不支持
+
+
+        paddingListMap.add(new AbstractMap.SimpleEntry<>("AES", "AES/GCM/PKCS5PADDING"));
         for (Map.Entry<String, String> entry : paddingListMap) {
             try {
                 boolean b = encryptCheck(entry);
@@ -74,8 +77,15 @@ public class JdkSymmetricAesTest {
         if (key == null)
             key = symmetric.initKey(padding, 128);//Base64.getDecoder().decode("koY9NPFJGf4=");//
 
-        if (iv == null)
-            iv = AbstractSymmetric.initIv(16);
+        if (iv == null) {
+            if (entry.getValue().contains("GCM")) {
+
+                iv = AbstractSymmetric.initIv(12);
+            } else {
+
+                iv = AbstractSymmetric.initIv(16);
+            }
+        }
 
         System.out.println("key:" + Base64.getEncoder().encodeToString(key));
         System.out.println("iv:" + Base64.getEncoder().encodeToString(iv));
