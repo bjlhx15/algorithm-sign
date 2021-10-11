@@ -24,3 +24,5 @@
 /nbdist/
 /.nb-gradle/
 /bin/
+target
+/target
